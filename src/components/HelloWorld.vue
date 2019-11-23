@@ -1,7 +1,6 @@
 <template>
-<v-content>
-<v-container
-        
+  <v-content>
+    <v-container 
         fluid
       >
         <v-row no-gutters>
@@ -53,42 +52,27 @@
             </v-card>
           </v-col>
         </v-row>
-
-
-      </v-container>
-      <!--<edit-map/>
-      <simple-map/>-->
-      <editable-map/>
-      <editable-labels2/>
-            <!--<editable-labels2/>-->
-            <!--<editable-labels3/>-->
-      <srid25832/>
-      <snap-map/>
-      <linie-map/>
-    </v-content>
-
+    </v-container>
+    <editable-map/>
+    <editable-labels2/>
+    <srid25832/>
+    <snap-map/>
+    <linie-map/>
+  </v-content>
 </template>
 
 <script>
 /* eslint-disable */
-//import EditMap from './EditMap.vue';
-//import SimpleMap from './SimpleMap.vue';
 import EditableMap from './EditableMap.vue';
 import EditableLabels2 from './EditableLabels2.vue';
-//import EditableLabels2 from './EditableLabels2.vue';
-//import EditableLabels3 from './EditableLabels3.vue';
 import Srid25832 from './Srid25832.vue';
 import SnapMap from './SnapMap.vue';
 import LinieMap from './LinieMap.vue';
 import L from 'leaflet';
-//import { LMap} from 'vue2-leaflet';
 import 'leaflet/dist/leaflet.css';
-//import 'leaflet-editable-marker';
 import 'leaflet-rotatedmarker';
 import BasemapLayer from 'esri-leaflet/src/Layers/BasemapLayer';
 import FeatureLayer from 'esri-leaflet/src/Layers/FeatureLayer/FeatureLayer';
-//import './leaflet.orientedmarker';
-//import {FeatureLayer} from 'esri-leaflet';
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -114,14 +98,11 @@ export default {
     labeltext: "Dingolfingerstr.",
     markercoord: L.latLng(48.13,11.6),
     labelmarker: L.latLng(48.13,11.6),
-    //staticAnchor: [100, 10],
     staticAnchor: [0, 0],
     labelangle: 30,
     addresses: [{"id":1,"street":"Dingolfingerstr.","number":11,"location":{"type":"Point","coordinates":[11.615049,48.132873]}},{"id":2,"street":"Dingolfingerstr.","number":9,"location":{"type":"Point","coordinates":[11.61449,48.132632]}},{"id":3,"street":"Dingolfingerstr.","number":7,"location":{"type":"Point","coordinates":[11.614051,48.132444]}},{"id":4,"street":"Dingolfingerstr.","number":5,"location":{"type":"Point","coordinates":[11.613666,48.132249]}}],
   }),
   mounted(){
-//const map = L.map('map').setView([59.6587675, 12.5904671], 18);
-//BasemapLayer('Streets').addTo(map);
 
        this.map = L.map('map').setView([this.latitude, this.longitude], 16);
       /*this.tileLayer = L.tileLayer(
@@ -153,15 +134,6 @@ export default {
 
     this.marker = L.marker(this.markercoord,{draggable: true}).addTo(this.map);
 
-    /*this.myIcon = L.divIcon({className: 'lc', html:'<div class="lc" id="lcid">'+this.labeltext+'</div>',	iconSize: [35, 53],
-			iconAnchor: [29, 51]});
-    this.textmarker=L.marker(this.markercoord, {icon: this.myIcon, draggable: true}).addTo(this.map);*/
-
-    //this.textrotate=L.editableMarker(this.markercoord, {icon: this.myIcon, draggable: true, angle: 45,
-    //  percent: 150}).addTo(this.map).activateTransformation();
-      
-    //L.orientedMarker(this.markercoord).addTo(this.map).activateOrientation();
-
     this.myIcon2 = L.divIcon({className: 'lc', html:'<div class="lc" id="lcid2">'+this.labeltext+'</div>',	iconSize: [0, 0],
 			iconAnchor: [0, 0]});
     this.markerrotated=L.marker(this.markercoord, {icon: this.myIcon2,
@@ -180,31 +152,15 @@ export default {
       });
       var long = address.location.coordinates[0];
       var lat =  address.location.coordinates[1];
-      console.log(long);
-      console.log(lat);
       this.marker.setLatLng([lat,long]);
       this.markerrotated.setLatLng([lat,long]);
-      /*this.circle = L.circle([lat,long], {
-        color: 'red',
-        fillColor: '#f03',
-        fillOpacity: 0.5,
-        radius: 5
-      }).addTo(this.map);*/
       this.map.setView([lat,long], 17);
     },
     textChanged(){
-        console.log(this.labeltext);
-        //this.myIcon.options = {html:'<div class="lc" ref="lcid">'+this.labeltext+'</div>'};
-        //document.getElementById('lcid').innerText=this.labeltext;
         document.getElementById('lcid2').innerText=this.labeltext;
-        //this.myIcon.mergeOptions={html:'<div class="lc" ref="lcid">'+this.labeltext+'</div>'};
     },
     angleChanged(){
-        console.log(this.labelangle);
-        //console.log(this.myIcon);
-        //document.getElementById('lcid').style.transform="rotate("+this.labelangle+"deg)";
         this.markerrotated.setRotationAngle(this.labelangle);
-        //this.$refs.lcid.style.transform="rotate("+this.labelangle+"deg)";
     },
   }
 };

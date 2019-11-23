@@ -45,19 +45,19 @@ export default {
   mounted(){
 
       this.map = L.map('map5',{editable: true, doubleClickZoom: false}).setView([this.latitude, this.longitude], 16);
-      this.tileLayer = L.tileLayer.wms('https://geoportal.muenchen.de/geoserver/gsm/wms?', {
+      /*this.tileLayer = L.tileLayer.wms('https://geoportal.muenchen.de/geoserver/gsm/wms?', {
           maxZoom: 30,
           layers: 'g_stadtkarte_gesamt',
           attribution: '&copy; <a href="https://www.muenchen.de/rathaus/Stadtverwaltung/Kommunalreferat/geodatenservice/geobasisdaten.html">GeodatenService München</a>'
-      }).addTo(this.map);
-      /*this.tileLayer = L.tileLayer(
+      }).addTo(this.map);*/
+      this.tileLayer = L.tileLayer(
         'https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/voyager/{z}/{x}/{y}.png',
         {
           maxZoom: 30,
           attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attribution">CARTO</a>',
         }
       );     
-      this.tileLayer.addTo(this.map);*/
+      this.tileLayer.addTo(this.map);
 
       this.streetlabels = FeatureLayer({
         url: 'https://services6.arcgis.com/o35AqnOAAmCIYvxP/ArcGIS/rest/services/streetlabels/FeatureServer/0',

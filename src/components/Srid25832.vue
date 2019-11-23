@@ -119,6 +119,8 @@ this.crs = new L.Proj.CRS('EPSG:25832',
         this.hw = xy.y;
       });
 
+      // the following part is mostly based on an example from https://esri.github.io/esri-leaflet/examples/editable.html
+
       this.buildings = FeatureLayer({
         url: 'https://services6.arcgis.com/o35AqnOAAmCIYvxP/arcgis/rest/services/buildings2/FeatureServer/0',
         attribution: '&copy; <a href="https://www.muenchen.de/rathaus/Stadtverwaltung/Kommunalreferat/geodatenservice/geobasisdaten.html">GeodatenService München</a>'
@@ -131,9 +133,6 @@ this.crs = new L.Proj.CRS('EPSG:25832',
         weight: 1
       });
 
-      console.log("ich bin hier");
-
-      // create a generic control to invoke editing
       L.EditControl = L.Control.extend({
           options: {
               position: 'topleft',
@@ -141,7 +140,6 @@ this.crs = new L.Proj.CRS('EPSG:25832',
               kind: '',
               html: ''
           },
-          // when the control is added to the map, wire up its DOM dynamically and add a click listener
           onAdd: function (map) {
               var container = L.DomUtil.create('div', 'leaflet-control leaflet-bar'),
                   link = L.DomUtil.create('a', '', container);
@@ -156,9 +154,6 @@ this.crs = new L.Proj.CRS('EPSG:25832',
           }
       });
 
-console.log("ich bin hier2");
-
-      // extend the control to draw polygons
       L.NewPolygonControl = L.EditControl.extend({
           options: {
               position: 'topleft',
@@ -167,8 +162,7 @@ console.log("ich bin hier2");
               html: '▰'
           }
       });
-console.log("ich bin hier3");
-      // extend the control to draw rectangles
+
       L.NewRectangleControl = L.EditControl.extend({
           options: {
               position: 'topleft',
@@ -178,18 +172,12 @@ console.log("ich bin hier3");
           }
       });
 
-      // create fullscreen control
       var fsControl = L.control.fullscreen();
-      // add fullscreen control to the map
       this.map.addControl(fsControl);
 
-      // add the two new controls to the map
       this.map.addControl(new L.NewPolygonControl());
       this.map.addControl(new L.NewRectangleControl());
 
-
-
-      // detect fullscreen toggling
       this.map.on('enterFullscreen', function(){
         if(window.console) window.console.log('enterFullscreen');
       });
@@ -197,19 +185,14 @@ console.log("ich bin hier3");
         if(window.console) window.console.log('exitFullscreen');
       });
 
-console.log("ich bin hier4");
 
-      // when users CMD/CTRL click an editable feature, remove it from the map and delete it from the service
       this.buildings.on('click', (e) => {
         if ((e.originalEvent.ctrlKey || e.originalEvent.metaKey) && e.layer.editEnabled()) {
           e.layer.editor.deleteShapeAt(e.latlng);
-          // delete expects an id, not the whole geojson object
           this.buildings.deleteFeature(e.layer.feature.id);
         }
       });
 
-      // when users double click a graphic toggle its editable status
-      // when deselecting, pass the geometry update to the service
       this.buildings.on('dblclick', (e) => {
         e.layer.toggleEdit();
         if (!e.layer.editEnabled()) {
@@ -217,7 +200,6 @@ console.log("ich bin hier4");
         }
       });
 
-      // when a new feature is drawn using one of the custom controls, pass the edit to the service
       this.map.on('editable:drawing:commit', (e) => {
         this.buildings.addFeature(e.layer.toGeoJSON());
         e.layer.toggleEdit();

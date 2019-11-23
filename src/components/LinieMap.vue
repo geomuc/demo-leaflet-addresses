@@ -65,9 +65,6 @@ import 'proj4';
 import 'proj4leaflet';
 import 'leaflet-geometryutil';
 import 'leaflet-snap';
-//import 'leaflet-editable';
-//import 'leaflet.fullscreen';
-//import 'leaflet.fullscreen/Control.FullScreen.css';
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -175,8 +172,6 @@ this.crs = new L.Proj.CRS('EPSG:25832',
       this.drawMittemarker();
     },
     moveLine: function(dlat,dlong){
-      console.log(dlat);
-      console.log(dlong);
       this.poslabel[0]=this.poslabel[0]+dlong;
       this.poslabel[1]=this.poslabel[1]+dlat;
       this.poslabel2[0]=this.poslabel2[0]+dlong;
@@ -221,8 +216,6 @@ this.crs = new L.Proj.CRS('EPSG:25832',
         this.mitte[0]=pos.lng;
         var delta_lat = this.mitte[1]-mittelat_alt;
         var delta_long = this.mitte[0]-mittelong_alt;
-        console.log("Mitte")
-        console.log(this.mitte);
         this.moveLine(delta_lat,delta_long);
       });
     },
@@ -237,8 +230,6 @@ this.crs = new L.Proj.CRS('EPSG:25832',
         var pos=e.target.getLatLng();
         this.poslabel[1]=pos.lat;
         this.poslabel[0]=pos.lng;
-        console.log("Punkt1")
-        console.log(this.poslabel);
         this.changeMarker2();
         this.changeLine();
       });
@@ -254,8 +245,6 @@ this.crs = new L.Proj.CRS('EPSG:25832',
         var pos=e.target.getLatLng();
         this.poslabel2[1]=pos.lat;
         this.poslabel2[0]=pos.lng;
-        console.log("Punkt2")
-        console.log(this.poslabel2);
         this.changeMarker();
         this.changeLine();
       });
@@ -268,18 +257,13 @@ this.crs = new L.Proj.CRS('EPSG:25832',
       /********************
        * Falls der "linke" Marker bewegt wird, wird auch der "rechte" (marker2) mitrotiert 
       ********************/
-      console.log("changeMarker2");
       var angle_alt=this.angle;
-      //var delta_lat = this.poslabel2[1]-this.mitte[1];
-      //var delta_long = this.poslabel2[0]-this.mitte[0]
       var s2_alt =  Math.sqrt((this.poslabel2[1]-this.mitte[1])**2+(this.poslabel2[0]-this.mitte[0])**2);
-      console.log(s2_alt);
       var neux=this.poslabel[1]-this.mitte[1];
       var neuy=this.poslabel[0]-this.mitte[0];
       var angleneu = Math.atan2(neuy, neux)* (180 / Math.PI)-90;
       if (angleneu <0){angleneu=angleneu+360};
       if (angleneu >360){angleneu=angleneu-360};
-      console.log(angleneu);
       this.angle=angleneu+180;
       if (this.angle <0){this.angle=this.angle+360};
       if (this.angle >360){this.angle=this.angle-360};
@@ -297,10 +281,8 @@ this.crs = new L.Proj.CRS('EPSG:25832',
       /********************
        * Falls der "rechte" Marker bewegt wird, wird auch der "linke" (marker2) mitrotiert 
       ********************/
-      console.log("changeMarker");
       var angle_alt=this.angle;
       var s_alt =  Math.sqrt((this.poslabel[1]-this.mitte[1])**2+(this.poslabel[0]-this.mitte[0])**2);
-      console.log(s_alt);
       var neux=this.poslabel2[1]-this.mitte[1];
       var neuy=this.poslabel2[0]-this.mitte[0];
       var angleneu = Math.atan2(neuy, neux)* (180 / Math.PI)-90;
@@ -309,7 +291,6 @@ this.crs = new L.Proj.CRS('EPSG:25832',
       this.winkelxy=Math.atan2(neuy, neux*1.5)* (180 / Math.PI)-90;;
       if (this.winkelxy <0){this.winkelxy=this.winkelxy+360};
       if (this.winkelxy >360){this.winkelxy=this.winkelxy-360};
-      console.log(angleneu);
       this.angle=angleneu;
       this.poslabel[1]=this.mitte[1]+((Math.sin(this.angle/180*Math.PI))*s_alt);
       this.poslabel[0]=this.mitte[0]-((Math.cos(this.angle/180*Math.PI))*s_alt);
@@ -322,8 +303,6 @@ this.crs = new L.Proj.CRS('EPSG:25832',
       console.log("streetChanged");
     },
     housenumberChanged: function(){
-      console.log("housenumberChanged");
-      //document.getElementById('lcid2').innerText=this.housenumber;
       this.hnrtextmarker.remove();
       this.drawHnrtext();
       this.mittemarker.remove();

@@ -45,9 +45,6 @@ import 'proj4';
 import 'proj4leaflet';
 import 'leaflet-geometryutil';
 import 'leaflet-snap';
-//import 'leaflet-editable';
-//import 'leaflet.fullscreen';
-//import 'leaflet.fullscreen/Control.FullScreen.css';
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -65,8 +62,6 @@ export default {
     rw: 694451.45,
     hw: 5334297.15,
     markercoord: L.latLng(48.13,11.6),
-
-    //labelmarker: L.latLng(48.13,11.6),
   }),
   mounted(){
 
@@ -125,7 +120,6 @@ this.crs = new L.Proj.CRS('EPSG:25832',
           opacity: 1.0
       }).addTo(this.map);
 
-      //this.marker = L.marker(this.markercoord,{draggable: true}).addTo(this.map);
       this.marker = L.marker(this.markercoord).addTo(this.map);
       this.marker.snapediting = new L.Handler.MarkerSnap(this.map, this.marker);
       this.marker.snapediting.addGuideLayer(guides);
